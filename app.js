@@ -6,6 +6,7 @@ const router = require('./routes');
 const static = require('koa-static');
 const session = require('koa-session');
 const Pug = require('koa-pug');
+const fs = require('fs');
 
 const app = new Koa();
 const pug = new Pug({
@@ -35,5 +36,8 @@ app.on('error', (err, ctx) => {
 });
 
 const server = app.listen(process.env.PORT || 3000, () => {
-  console.log('Example app listening on port ' + server.address().port);
+  if (!fs.existsSync(config.upload)) {
+    fs.mkdirSync(config.upload);
+  }
+  console.log(`Example app listening on port ${server.address().port}`);
 });
